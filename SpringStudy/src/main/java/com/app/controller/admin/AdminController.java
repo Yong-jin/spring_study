@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.app.dto.room.Room;
+import com.app.dto.user.User;
 import com.app.service.room.RoomService;
+import com.app.service.user.UserService;
 
 @Controller
 public class AdminController {
@@ -19,6 +21,8 @@ public class AdminController {
 	@Autowired
 	RoomService roomService;
 	
+	@Autowired
+	UserService userService;
 	
 	@GetMapping("/admin/registerRoom")
 	public String registerRoom() {
@@ -59,6 +63,48 @@ public class AdminController {
 		
 		return "admin/rooms";		
 	}
+	
+	
+	//관리자가 사용자계정관리 -> 사용자 계정 추가
+	@GetMapping("/admin/users/add")
+	public String addUser() {
+		return "admin/addUser";
+	}
+	
+	@PostMapping("/admin/users/add")
+	public String addUser(User user) {
+		
+		//user 정보를 DB에 저장
+		System.out.println(user);
+		
+		//관리자가 사용자 계정을 추가
+		//사용자 계정 -> userType 값은 "CUS" 코드로 저장되어야한다.
+		
+		/*
+		1) 컨트롤러에서 바로 처리
+		
+		user.setUserType("CUS");
+		
+		userService.saveUser(user);
+		 */
+		
+		/*
+		2) 서비스 계층/레이어/레벨 에서 사용자를 저장하는 메소드를 활용 
+		
+		userService.saveCustomerUser(user);
+		 */
+		
+		int result = userService.saveCustomerUser(user);
+		
+		if(result > 0) {
+			
+		} else {
+			
+		}
+		
+		return "admin/addUser";
+	}
+	
 	
 }
 
