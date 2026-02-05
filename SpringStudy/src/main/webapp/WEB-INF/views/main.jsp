@@ -11,6 +11,8 @@
 	
 	<div>
 		<button type="button" onClick="location.href='/customer/signup'">회원가입하기</button>
+		
+		<button type="button" onClick="location.href='/customer/signin'">로그인</button>
 	</div>
 </body>
 </html>
