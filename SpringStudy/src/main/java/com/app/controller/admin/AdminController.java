@@ -187,7 +187,46 @@ public class AdminController {
 		return "admin/users";
 	}
 	
+	//관리자페이지 
 	
+	//사용자 상세 정보 
+	@GetMapping("/admin/user/{id}")
+	public String user(@PathVariable String id, Model model) {
+		
+		User user = userService.findUserById(id);
+		model.addAttribute("user", user);
+		
+		return "admin/user";		
+	}
+	
+	
+	//사용자 정보 변경(수정)
+	@GetMapping("/admin/modifyUser/{id}")
+	public String modifyUser(@PathVariable String id, Model model) {
+		
+		//수정페이지 
+		//기존에 있는 값 -> view 세팅
+		User user = userService.findUserById(id);
+		model.addAttribute("user", user);
+		
+		return "admin/modifyUser";
+	}
+	
+	@PostMapping("/admin/modifyUser")
+	public String modifyUserAction(User user) {
+		
+		System.out.println("modifyUser 넘어온 값");
+		System.out.println(user);
+		//DB 연동 수정!
+		int result = userService.modifyUser(user);
+		
+		if(result > 0) {  //수정 성공 -> 사용자 상세페이지
+			return "redirect:/admin/user/" + user.getId();			
+		} else { //수정 실패 -> 다시 수정하는 페이지
+			return "redirect:/admin/modifyUser/" + user.getId();
+		}
+		
+	}
 }
 
 
