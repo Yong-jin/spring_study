@@ -128,6 +128,24 @@ public class UserServiceImpl implements UserService {
 		
 		return userList;
 	}
+
+	@Override
+	public boolean isDuplicatedId(String id) {
+		//중복여부 체크 return
+		
+		//중복? true 
+		//중복아니면? false
+		
+		//해당 ID가  DB에 이미 있나?
+		User user = userDAO.findUserById(id);
+		
+		if(user == null) { //아이디 못찾음 return null -> 없음 -> 중복XXX 
+			return false;
+		} else { //아이디 있다 -> PK id가 이미 있다 -> 중복 OOO 
+			return true;
+		}
+		
+	}
 }
 
 
