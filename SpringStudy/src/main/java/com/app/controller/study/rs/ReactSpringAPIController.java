@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.util.LoginManager;
+
 @RestController
 public class ReactSpringAPIController {
 	
@@ -77,7 +79,52 @@ public class ReactSpringAPIController {
 		
 		return drinkList;
 	}
+	
+	
+//  사용자입력한 id, pw          
+	// json   {id : 'abc', pw:'1234qwer'}
+	@PostMapping("/api/login")  
+	public String login(@RequestBody Member member, HttpServletRequest request) {
+		
+		System.out.println(member.getId());
+		System.out.println(member.getPw());
+		
+		// id,pw 확인 -> Service,DAO -> DB T_User 정보
+
+		// id, pw 맞는지 확인
+		
+		// 로그인 성공 return "loginOk";
+		// 로그인 실패 return "fail";  "no";
+		// 단순 텍스트 리턴
+		
+		
+		// return apiResponse  (header, body)
+		// resultCode, resultMsg
+		
+		// 로그인 성공했다고 치고 
+		
+		// 로그인 유지
+		// Session 에 로그인 여부 처리 -> 로그인 사용자 id 저장
+		LoginManager.setSessionLoginUserId(request, member.getId());
+			
+		
+		return "loginOk";
+	}
+	
+	@PostMapping("/api/loginCheck")
+	public String loginCheck(HttpServletRequest request) {
+		
+		if(LoginManager.isLogin(request)) { //로그인 되어있나 체크
+			String loginId = LoginManager.getLoginUserId(request);
+			System.out.println(loginId);
+			
+			return "login user : " + loginId;
+		} else {
+			return "is not login";
+		}
+	}
 }
+
 
 
 
